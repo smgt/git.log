@@ -1,5 +1,4 @@
 require "sinatra/base"
-#require "sinatra/respond_to"
 require 'digest/md5'
 require "cgi"
 require "grit"

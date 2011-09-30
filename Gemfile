@@ -1,6 +1,5 @@
 source "http://rubygems.org"
 gem "grit"
 gem "sinatra"
-gem "sinatra/respond_to"
 gem "albino"
 gem "yaml"
