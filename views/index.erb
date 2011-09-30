@@ -1,0 +1,4 @@
+<% commits.each do |commit| %>
+  <a href="/commit/<%= commit.id %>"><%= commit.id[0..4] %></a> - <%= commit.message %> - <%= commit.author %><br/>
+<%end%>
+

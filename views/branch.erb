@@ -1,0 +1,18 @@
+<h1><%= branch %></h1>
+<table class="commits">
+  <% last_date = nil %>
+  <% commits.each do |commit| %>
+    <% if last_date.nil? || last_date.strftime("%Y-%m-%d") != commit.date.strftime("%Y-%m-%d") %>
+      <tr class="date_separator">
+        <td colspan="3"><%= commit.date.strftime("%Y-%m-%d") %></td>
+      </tr>
+    <% end %>
+    <tr class="commit">
+      <td><img src="<%= gravatar(commit.author.email, "36x36") %>"></td>
+      <td><%= commit.message %><br><span class="info">Authored by <span class="author"><%= commit.author %></span> at <span class="date"><%= commit.date.strftime("%Y-%m-%d %H:%M:%S") %></span></span></td>
+      <td><a href="/commit/<%= commit.id %>"><%= commit.id[0..4] %></a></td>
+    </tr>
+    <% last_date = commit.date %>
+  <%end%>
+</table>
+

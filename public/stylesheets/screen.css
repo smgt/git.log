@@ -1,0 +1,19 @@
+body {
+  background-color: #eee;
+  font-family: "Helvetica Neue";
+}
+
+.highlight {
+  overflow: auto;
+  width: 600px;
+}
+
+.commits .date_separator td {
+  color: #aaa;
+  padding: 1.5em 0 0.5em 0;
+}
+
+.commit .info {
+  font-size: 10px;
+  color: #aaa;
+}

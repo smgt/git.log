@@ -1,0 +1,19 @@
+<h1>
+<%= commit.first.id %>
+</h1>
+<div id="author">
+  Author: <%= commit.first.author %>
+</div>
+<div id="committer">
+  Committer: <%= commit.first.committer %>
+</div>
+<div id="message">
+  <pre><code>
+<%= commit.first.message %>
+</pre></code>
+</div>
+<% commit.first.diffs.each do |diff| %>
+  <%= diff.a_path %>
+  <%= colorize(diff.diff) %>
+<% end %>
+
