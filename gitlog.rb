@@ -9,7 +9,7 @@ class GitLog < Sinatra::Base
 
   if File.exists?("config.yaml")
     @@config = YAML.load_file("config.yaml")
-    @@repo = Grit::Repo.new("/Users/simon/Development/Flattr/flattr.git")
+    @@repo = Grit::Repo.new @@config["repo_location"]
   else
     puts "Not config.yaml present.."
     exit 0
