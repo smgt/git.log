@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="/stylesheets/syntax.css">
 </head>
 <body>
-<%= yield %>
+  <nav>
+    <a href="/branches">Branches</a> | <a href="/tree/master">Master tree</a>
+  </nav>
+  <div id="wrapper">
+    <%= yield %>
+  </div>
 </body>
 </html>

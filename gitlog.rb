@@ -30,7 +30,7 @@ class GitLog < Sinatra::Base
 
     def colorize_diff(diff)
       diff = Albino.new(diff, :diff, :html)
-      return diff.colorize({:O => "tabsize=4,linenos=inline,lineanchors=line"})
+      return diff.colorize({:O => "tabsize=4"})
     end
 
     def gravatar(email, size="200")
@@ -51,15 +51,21 @@ class GitLog < Sinatra::Base
   end
 
   # Show latest commits for a branch
-  get "/commits/*" do
-    commits = @@repo.commits(params[:splat].first, 50)
-    erb :commits, :locals => {:repo => @@repo, :commits => commits, :branch => params[:splat].first}
+  get "/commits/:branch" do
+    commits = @@repo.commits(params[:branch], 50)
+    erb :commits, :locals => {:repo => @@repo, :commits => commits, :branch => params[:branch]}
   end
 
   # Show commit
   get "/commit/:sha" do
     commit = @@repo.commits(params[:sha])
     erb :commit, :locals => {:commit => commit.first}
+  end
+
+  # Show the tree for a certain branch
+  get "/tree/:branch" do
+    tree = @@repo.tree(params[:branch])
+    erb :tree, :locals => {:tree => tree, :path => "", :branch => params[:branch]} 
   end
 
   # Show a tree based on sha
@@ -72,8 +78,10 @@ class GitLog < Sinatra::Base
   # Show tree from HEAD of a branch
   get "/tree/:branch/*" do
     tree = @@repo.tree(params[:branch])
-    tree = tree / params[:splat].first
-    erb :tree, :locals => {:tree => tree, :path => params[:splat].first}
+    if params[:splat].first
+      tree = tree / params[:splat].first
+    end
+    erb :tree, :locals => {:tree => tree, :path => "/"+params[:splat].first, :branch => params[:branch]}
   end
 
   # Show a blob

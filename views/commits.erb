@@ -1,4 +1,5 @@
-<h1><%= branch %> <a href="/branches">back</a></h1>
+<h1><%= branch %></h1>
+<a href="/tree/<%= branch %>">Tree</a>
 <table class="commits">
   <% last_date = nil %>
   <% commits.each do |commit| %>

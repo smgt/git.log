@@ -1,3 +1,3 @@
 <% branches.each do |branch| %>
-  <a href="/commits/<%= branch.name %>"><%= branch.name %></a><br>
+  <a href="/commits/<%= branch.name %>"><%= branch.name %></a> <a href="/tree/<%= branch.name %>">Tree</a><br>
 <% end %>
