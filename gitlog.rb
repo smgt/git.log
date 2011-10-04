@@ -1,9 +1,16 @@
+$: << './lib/linguist/lib'
+require "charlock_holmes"
 require "sinatra/base"
 require 'digest/md5'
 require "cgi"
 require "grit"
 require "albino"
 require "yaml"
+require "./lib/linguist/lib/linguist/blob_helper"
+
+class Grit::Blob 
+  include Linguist::BlobHelper
+end
 
 class GitLog < Sinatra::Base
 
@@ -21,7 +28,7 @@ class GitLog < Sinatra::Base
       return CGI.escapeHTML(input)
     end
 
-    def colorize(diff)
+    def colorize_diff(diff)
       diff = Albino.new(diff, :diff, :html)
       return diff.colorize({:O => "tabsize=4,linenos=inline,lineanchors=line"})
     end
@@ -34,30 +41,46 @@ class GitLog < Sinatra::Base
 
   # Redirect to HEAD
   get "/" do
-    redirect to("/branch/HEAD")
+    redirect to("/commits/HEAD")
   end
 
   # List branches
-  get "/branch" do
+  get "/branches" do
     branches = @@repo.branches
     erb :branches, :locals => {:branches => branches}
   end
 
   # Show latest commits for a branch
-  get "/branch/*" do
+  get "/commits/*" do
     commits = @@repo.commits(params[:splat].first, 50)
-    erb :branch, :locals => {:repo => @@repo, :commits => commits, :branch => params[:splat].first}
+    erb :commits, :locals => {:repo => @@repo, :commits => commits, :branch => params[:splat].first}
   end
 
   # Show commit
   get "/commit/:sha" do
     commit = @@repo.commits(params[:sha])
-    erb :commit, :locals => {:commit => commit}
+    erb :commit, :locals => {:commit => commit.first}
   end
 
-  # Show file
-  get "/tree/:path" do
-    return params[:path]
+  # Show a tree based on sha
+  get %r{/tree/([a-f0-9]{40})$} do
+    sha = params[:captures].first
+    tree = @@repo.tree(sha)
+    erb :tree, :locals => {:tree => tree}
+  end
+
+  # Show tree from HEAD of a branch
+  get "/tree/:branch/*" do
+    tree = @@repo.tree(params[:branch])
+    tree = tree / params[:splat].first
+    erb :tree, :locals => {:tree => tree, :path => params[:splat].first}
+  end
+
+  # Show a blob
+  get "/blob/:branch/*" do
+    tree = @@repo.tree(params[:branch])
+    blob = tree / params[:splat].first 
+    erb :blob, :locals => {:blob => blob}
   end
 
   # Show commits by author

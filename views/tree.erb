@@ -1,0 +1,7 @@
+<h1>Tree</h1>
+<% tree.trees.each do |t| %>
+  /<a href="/tree/master/<%= path+"/" if defined?(path) && !path.nil?%><%= t.basename %>"><%= t.name %></a><br>
+<%end%>
+<% tree.blobs.each do |b| %>
+  <a href="/blob/master/<%= path+"/" if defined?(path) && !path.nil? %><%= b.basename%>"><%= b.name %></a><br>
+<%end%>

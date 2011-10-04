@@ -1,19 +1,23 @@
 <h1>
-<%= commit.first.id %>
+<%= commit.message %>
 </h1>
+Browse the <a href="/tree/<%= commit.tree.id %>">Tree</a>
 <div id="author">
-  Author: <%= commit.first.author %>
+  Author: <%= commit.author %>
 </div>
 <div id="committer">
-  Committer: <%= commit.first.committer %>
+  Committer: <%= commit.committer %>
+</div>
+<div id="commit-id">
+  SHA: <%= commit.id %>
 </div>
 <div id="message">
   <pre><code>
-<%= commit.first.message %>
+<%= commit.message %>
 </pre></code>
 </div>
-<% commit.first.diffs.each do |diff| %>
+<% commit.diffs.each do |diff| %>
   <%= diff.a_path %>
-  <%= colorize(diff.diff) %>
+  <%= colorize_diff(diff.diff) %>
 <% end %>
 
