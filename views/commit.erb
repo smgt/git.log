@@ -17,15 +17,26 @@ Browse the <a href="/tree/<%= commit.tree.id %>">Tree</a>
 </pre></code>
 </div>
 <% commit.diffs.each do |diff| %>
-  <a href="/commits/<%= commit.id %>/<%= diff.b_path %>">History</a>
 <div class="diff">
-  <% if diff.a_path != diff.b_path %>
-    <%= diff.a_path %> -&lt; <%= diff.b_path %><br>
+  <% if diff.deleted_file %>
+    <a href="/commits/<%= commit.id %>/<%= diff.b_path %>">History</a><br>
+    DELETED: <%= diff.a_path %><br>
   <% else %>
-    <%= diff.a_path %><br>
+    <a href="/commits/<%= commit.id %>/<%= diff.b_path %>">History</a><br>
+    <% if image?(diff.b_path) %>
+        <%= diff.a_path %><br>
+        <%= diff.b_path %><br>
+        <%= blob_img_tag(commit.id, diff.b_path) %>
+    <% else %>
+      <% if diff.a_path != diff.b_path %>
+        <%= diff.a_path %> -&lt; <%= diff.b_path %><br>
+      <% else %>
+        <%= diff.a_path %><br>
+      <% end %>
+      <div class="highlight">
+      <%= colorize_diff(diff.diff) %>
+      </div>
+    <% end %>
   <% end %>
-  <div class="highlight">
-  <%= colorize_diff(diff.diff) %>
-  </div>
 </div>
 <% end %>

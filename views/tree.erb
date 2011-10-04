@@ -1,7 +1,7 @@
-<h1><span class="slim light">Tree:</span> <%= branch %></h1>
+<h1><span class="slim light">Tree:</span> <%= breadcrumb_path(branch, path) %></h1>
 <% tree.trees.each do |t| %>
-  /<a href="/tree/<%= branch %><%= path+"/" if defined?(path) && !path.nil?%><%= t.basename %>"><%= t.name %></a><br>
+  /<a href="/tree/<%= branch %>/<%= path if defined?(path) && !path.nil?%>/<%= t.basename %>"><%= t.name %></a><br>
 <%end%>
 <% tree.blobs.each do |b| %>
-  <a href="/blob/<%= branch %><%= path+"/" if defined?(path) && !path.nil? %><%= b.basename%>"><%= b.name %></a><br>
+  <a href="/blob/<%= branch %>/<%= path if defined?(path) && !path.nil? %>/<%= b.basename%>"><%= b.name %></a><br>
 <%end%>

@@ -8,6 +8,7 @@ require "albino"
 require "yaml"
 require "./lib/linguist/lib/linguist/blob_helper"
 require "pretty_diff"
+require "fileutils"
 
 class Grit::Blob 
   include Linguist::BlobHelper
@@ -18,6 +19,7 @@ class GitLog < Sinatra::Base
   if File.exists?("config.yaml")
     @@config = YAML.load_file("config.yaml")
     @@repo = Grit::Repo.new @@config["repository"]
+    @@repo_name = File.basename @@config["repository"]
   else
     puts "Not config.yaml present.."
     exit 0
@@ -26,7 +28,27 @@ class GitLog < Sinatra::Base
   helpers do
 
     def h(input)
-      return CGI.escapeHTML(input)
+      return input.nil? ? "" : CGI.escapeHTML("#{input}")
+    end
+
+    def image?(path)
+      ['.png', '.jpg', '.jpeg', '.gif'].include?(File.extname(path))
+    end
+
+    def blob_img_tag(commit, path)
+      return '<img src="/raw/blob/'+ commit +'/'+path+'" alt="'+commit+'">'
+    end
+
+    def breadcrumb_path(commit, path)
+      path = path.split("/")
+      link = Array.new
+      last = path.pop
+      link << last
+      while path.size > 0
+        link << '<a href="/tree/'+ commit + '/'+path.join("/")+'">'+path.pop+'</a>'
+      end
+      link << '<a href="/tree/'+ commit +'">'+@@repo_name+'</a>'
+      return link.reverse.join(" / ")
     end
 
     def colorize_diff(diff)
@@ -72,9 +94,9 @@ class GitLog < Sinatra::Base
     erb :branches, :locals => {:branches => branches}
   end
 
-  get %r{/commits/(.+)/(.+)$} do
-    commits = @@repo.log(params[:captures].first, params[:captures].last)
-    erb :history, :locals => {:repo => @@repo, :commits => commits, :branch => params[:captures].first, :file => params[:captures].last}
+  get "/commits/:branch/*" do
+    commits = @@repo.log(params[:branc], params[:splat].last)
+    erb :history, :locals => {:repo => @@repo, :commits => commits, :branch => params[:branch], :path => params[:splat].last}
   end
 
   # Show latest commits for a branch
@@ -112,10 +134,29 @@ class GitLog < Sinatra::Base
   end
 
   # Show a blob
-  get "/blob/:branch/*" do
-    tree = @@repo.tree(params[:branch])
-    blob = tree / params[:splat].first 
-    erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree}
+  get "/blob/:commit/*" do
+    tree = @@repo.tree(params[:commit])
+    blob = tree / params[:splat].first
+    erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree, :commit_id => params[:commit]}
+  end
+
+  get "/raw/blob/:commit/*" do
+    cache_path = @@config["cache"]["blob"]
+    if File.exists?("#{cache_path}#{params[:commit]}/#{params[:splat].first}")
+      send_file("#{cache_path}#{params[:commit]}/#{params[:splat].first}")
+    else
+      tree = @@repo.tree(params[:commit])
+      blob = tree / params[:splat].first
+      path = File.dirname(params[:splat].first)
+      file = File.basename(params[:splat].first)
+      if blob
+        FileUtils.mkdir_p("#{cache_path}#{params[:commit]}/#{path}")
+        fh = File.new("#{cache_path}#{params[:commit]}/#{path}/#{file}", "w")
+        fh.write(blob.data)
+        fh.close
+      end
+      return send_file("#{cache_path}#{params[:commit]}/#{path}/#{file}")
+    end
   end
 
   # Well...

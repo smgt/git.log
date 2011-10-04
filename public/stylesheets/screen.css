@@ -51,6 +51,10 @@ div.diff {
   margin-bottom: 1em;
 }
 
+div.diff img {
+  border: 1px solid #ccc;
+}
+
 .commit .info {
   font-size: 10px;
   color: #aaa;

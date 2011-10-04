@@ -1,3 +1,7 @@
-<h1><span class="slim light">Blob:</span> <%= blob.name %></h1>
-<a href="/commits/<%= tree.id %>/<%= path %>">History</a>
-<%= blob.colorize %>
+<h1><span class="slim light">Blob:</span> <%= breadcrumb_path(commit_id, path)  %> </h1>
+<a href="/commits/<%= commit_id %>/<%= path %>">History</a><br>
+<% if blob.image? %>
+  <%= blob_img_tag(commit_id, path) %>
+<% else %>
+  <%= blob.colorize %>
+<% end %>
