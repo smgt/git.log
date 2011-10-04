@@ -1,1 +1,3 @@
 repository: /full/path/to/bare/repository.git
+cache:
+  blob: /path/to/blob/image/caches
