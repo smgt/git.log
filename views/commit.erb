@@ -1,5 +1,5 @@
 <h1>
-<%= commit.message %>
+<%= commit.message.split("\n").first %>
 </h1>
 Browse the <a href="/tree/<%= commit.tree.id %>">Tree</a>
 <div id="author">
