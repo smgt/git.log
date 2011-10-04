@@ -17,6 +17,7 @@ Browse the <a href="/tree/<%= commit.tree.id %>">Tree</a>
 </pre></code>
 </div>
 <% commit.diffs.each do |diff| %>
+  <a href="/commits/<%= commit.id %>/<%= diff.b_path %>">History</a>
 <div class="diff">
   <% if diff.a_path != diff.b_path %>
     <%= diff.a_path %> -&lt; <%= diff.b_path %><br>

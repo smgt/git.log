@@ -30,8 +30,6 @@ class GitLog < Sinatra::Base
     end
 
     def colorize_diff(diff)
-      #diff = Albino.new(diff, :diff, :html)
-      #return diff.colorize({:O => "tabsize=4"})
       diff = PrettyDiff::Diff.new(diff)
       return diff.to_html
     end
@@ -40,17 +38,43 @@ class GitLog < Sinatra::Base
       return "http://www.gravatar.com/avatar/" + Digest::MD5.hexdigest(email) + "?s=" + size
     end
 
+    def commits_list(commits)
+      data = ""
+      data += '<table class="commits">'
+      last_date = nil
+      commits.each do |commit|
+        if last_date.nil? || last_date.strftime("%Y-%m-%d") != commit.date.strftime("%Y-%m-%d") 
+          data << '<tr class="date_separator">'
+          data << '<td colspan="3">' + commit.date.strftime("%Y-%m-%d") + '</td>'
+          data << '</tr>'
+        end
+        data << '<tr class="commit">'
+        data << '<td><img src="' + gravatar(commit.author.email, "36x36") +'"></td>'
+        data << '<td>' + h(commit.message.split("\n").first) + '<br><span class="info">Authored by <span class="author">' + commit.author.name + '</span> at <span class="date">' + commit.date.strftime("%Y-%m-%d %H:%M:%S") + '</span></span></td>'
+        data << '<td><a href="/commit/' + commit.id + '">' + commit.id[0..4] + '</a></td>'
+        data << '</tr>'
+        last_date = commit.date
+      end
+      data << '</table>'
+      return data
+    end
+
   end
 
   # Redirect to HEAD
   get "/" do
-    redirect to("/commits/HEAD")
+    redirect to("/commits/master")
   end
 
   # List branches
   get "/branches" do
     branches = @@repo.branches
     erb :branches, :locals => {:branches => branches}
+  end
+
+  get %r{/commits/(.+)/(.+)$} do
+    commits = @@repo.log(params[:captures].first, params[:captures].last)
+    erb :history, :locals => {:repo => @@repo, :commits => commits, :branch => params[:captures].first, :file => params[:captures].last}
   end
 
   # Show latest commits for a branch
@@ -84,14 +108,14 @@ class GitLog < Sinatra::Base
     if params[:splat].first
       tree = tree / params[:splat].first
     end
-    erb :tree, :locals => {:tree => tree, :path => "/"+params[:splat].first, :branch => params[:branch]}
+    erb :tree, :locals => {:tree => tree, :path => params[:splat].first, :branch => params[:branch]}
   end
 
   # Show a blob
   get "/blob/:branch/*" do
     tree = @@repo.tree(params[:branch])
     blob = tree / params[:splat].first 
-    erb :blob, :locals => {:blob => blob}
+    erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree}
   end
 
   # Well...
