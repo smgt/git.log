@@ -1,4 +1,4 @@
-<h1><%= branch %> Tree</h1>
+<h1><span class="slim light">Tree:</span> <%= branch %></h1>
 <% tree.trees.each do |t| %>
   /<a href="/tree/<%= branch %><%= path+"/" if defined?(path) && !path.nil?%><%= t.basename %>"><%= t.name %></a><br>
 <%end%>

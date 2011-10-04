@@ -8,6 +8,18 @@ body {
   font-family: "Helvetica Neue";
 }
 
+h1 {
+  margin-bottom: 0.5em;
+}
+
+.slim {
+  font-weight: normal;
+}
+
+.light {
+  color: #666;
+}
+
 #wrapper {
   padding: 1em;
 }
@@ -28,12 +40,15 @@ nav a {
 
 .highlight {
   overflow: auto;
-  width: 600px;
 }
 
 .commits .date_separator td {
   color: #aaa;
   padding: 1.5em 0 0.5em 0;
+}
+
+div.diff {
+  margin-bottom: 1em;
 }
 
 .commit .info {

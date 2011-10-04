@@ -1,5 +1,5 @@
 <h1>
-<%= commit.message.split("\n").first %>
+<%=h commit.message.split("\n").first %>
 </h1>
 Browse the <a href="/tree/<%= commit.tree.id %>">Tree</a>
 <div id="author">
@@ -13,13 +13,18 @@ Browse the <a href="/tree/<%= commit.tree.id %>">Tree</a>
 </div>
 <div id="message">
   <pre><code>
-<%= commit.message %>
+<%=h commit.message %>
 </pre></code>
 </div>
 <% commit.diffs.each do |diff| %>
-  <%= diff.a_path %>
+<div class="diff">
+  <% if diff.a_path != diff.b_path %>
+    <%= diff.a_path %> -&lt; <%= diff.b_path %><br>
+  <% else %>
+    <%= diff.a_path %><br>
+  <% end %>
   <div class="highlight">
   <%= colorize_diff(diff.diff) %>
   </div>
+</div>
 <% end %>
-

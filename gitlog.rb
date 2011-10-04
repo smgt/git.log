@@ -94,6 +94,12 @@ class GitLog < Sinatra::Base
     erb :blob, :locals => {:blob => blob}
   end
 
+  # Well...
+  get "/blame/:branch/:commit/*" do
+    #blame = Grit::Blame.new(params[:branch], params[:splat].first, params[:commit])
+    return false
+  end
+
   # Show commits by author
   get "/author/:email" do
     return params[:email]
