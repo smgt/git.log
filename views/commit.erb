@@ -18,6 +18,8 @@ Browse the <a href="/tree/<%= commit.tree.id %>">Tree</a>
 </div>
 <% commit.diffs.each do |diff| %>
   <%= diff.a_path %>
+  <div class="highlight">
   <%= colorize_diff(diff.diff) %>
+  </div>
 <% end %>
 

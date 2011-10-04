@@ -40,3 +40,10 @@ nav a {
   font-size: 10px;
   color: #aaa;
 }
+
+.code-viewer .code-lines {
+  float: left;
+  padding-right: 0.5em;
+  background-color: #ddd;
+  border-right: 1px solid #bbb;
+}

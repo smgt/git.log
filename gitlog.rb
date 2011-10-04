@@ -7,6 +7,7 @@ require "grit"
 require "albino"
 require "yaml"
 require "./lib/linguist/lib/linguist/blob_helper"
+require "pretty_diff"
 
 class Grit::Blob 
   include Linguist::BlobHelper
@@ -29,8 +30,10 @@ class GitLog < Sinatra::Base
     end
 
     def colorize_diff(diff)
-      diff = Albino.new(diff, :diff, :html)
-      return diff.colorize({:O => "tabsize=4"})
+      #diff = Albino.new(diff, :diff, :html)
+      #return diff.colorize({:O => "tabsize=4"})
+      diff = PrettyDiff::Diff.new(diff)
+      return diff.to_html
     end
 
     def gravatar(email, size="200")
