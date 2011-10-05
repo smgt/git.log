@@ -47,7 +47,13 @@ class GitLog < Sinatra::Base
       while path.size > 0
         link << '<a href="/tree/'+ commit + '/'+path.join("/")+'">'+path.pop+'</a>'
       end
-      link << '<a href="/tree/'+ commit +'">'+@@repo_name+'</a>'
+
+      if /[a-f0-9]{40}/ =~ commit
+        commit_short = commit[0..6]
+      else
+        commit_short = commit
+      end
+      link << '<a href="/tree/'+ commit +'">'+commit_short+'</a>'
       return link.reverse.join(" / ")
     end
 
