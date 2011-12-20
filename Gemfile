@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 gem "grit"
 gem "sinatra"
-gem "albino"
 gem "charlock_holmes"
 gem "pretty_diff"
+gem "linguist"
+gem "pygments.rb"

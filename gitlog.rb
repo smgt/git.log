@@ -1,16 +1,15 @@
-$: << './lib/linguist/lib'
 require "charlock_holmes"
 require "sinatra/base"
 require 'digest/md5'
 require "cgi"
 require "grit"
-require "albino"
 require "yaml"
-require "./lib/linguist/lib/linguist/blob_helper"
+require "linguist"
 require "pretty_diff"
 require "fileutils"
+require "pygments.rb"
 
-class Grit::Blob 
+class Grit::Blob
   include Linguist::BlobHelper
 end
 
