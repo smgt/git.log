@@ -70,4 +70,57 @@ small {
   font-weight: bold;
 }
 
+.highlight {
+  overflow: auto;
+  border-radius: 0 0 3px 3px;
+  border-bottom: 1px solid #aaa;
+  border-left: 1px solid #aaa;
+  border-right: 1px solid #aaa;
+}
+
+.highlight pre {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.diff {
+  margin-top: 1em;
+}
+
+.diff .header {
+  font-weight: bold;
+  padding: 0.5em;
+  background-color: #ccc;
+}
+
+.code-viewer.chunk {
+}
+
+.code-viewer .code-lines {
+  float: left;
+  min-width: 1em;
+  text-align: right;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+  background-color: #eee;
+  border-right: 1px solid #bbb;
+  color: #bbb;
+}
+
+.code-viewer .code-list span {
+  padding-left: 3px;
+  display: inline-block;
+}
+
+.code-viewer .code-list span:hover {
+  background-color: #FFF6B9;
+}
+
+.code-viewer pre {
+  display: block;
+  white-space: pre;
+  border: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
 

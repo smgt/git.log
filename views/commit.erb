@@ -1,7 +1,6 @@
 <h1>
-<%=h commit.message.split("\n").first %>
+<%=h commit.short_message %>
 </h1>
-Browse the <a href="/repo/<%= repo.name %>/tree/<%= commit.tree.id %>">Tree</a>
 <div id="author">
   Author: <%= commit.author %>
 </div>
@@ -11,19 +10,21 @@ Browse the <a href="/repo/<%= repo.name %>/tree/<%= commit.tree.id %>">Tree</a>
 <div id="commit-id">
   SHA: <%= commit.id %>
 </div>
+<p>
 <div id="message">
-  <pre><code>
-<%=h commit.message %>
-</pre></code>
+  <pre>
+    <%=h commit.message %>
+  </pre>
 </div>
+</p>
 <div class="diff_files">
   <% commit.diffs.each_with_index do |diff, index| %>
     <% if diff.new_file %>
-      + <a href="#<%= index%>"><%= diff.b_path %></a><br>
-    <% elsif diff.deleted_file %><br>
-      - <%= diff.b_path %>
+      <span class="btn btn-success"><i class="icon-plus icon-white"></i></span> <a href="#<%= index%>"><%= diff.b_path %></a><br>
+    <% elsif diff.deleted_file %>
+      <span class="btn btn-danger"><i class="icon-minus icon-white"></i></span> <%= diff.b_path %><br>
     <% else %>
-      = <a href="#<%= index %>"><%= diff.b_path %></a><br>
+      <span class="btn btn-info"><i class="icon-repeat icon-white"></i></span> <a href="#<%= index %>"><%= diff.b_path %></a><br>
     <% end %>
   <% end %>
 </div>
