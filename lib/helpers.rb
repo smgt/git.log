@@ -57,6 +57,10 @@ module Gitlog
       return "http://www.gravatar.com/avatar/" + Digest::MD5.hexdigest(email) + "?s=" + size
     end
 
+    def commit_time(time)
+      time.strftime("%d %B, %Y")
+    end
+
     def commits_list(repo, commits)
       data = ""
       data += '<table class="table table-striped table-bordered">'

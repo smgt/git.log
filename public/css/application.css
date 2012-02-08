@@ -33,6 +33,10 @@ table.table tr td.commit-date {
   color: #3a87ad;
 }
 
+table.tree tbody {
+  font-size: 0.8em;
+}
+
 small {
   font-size: 0.8em;
   color: #444;

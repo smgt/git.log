@@ -1,7 +1,28 @@
-<%= breadcrumb_path(repo.name, branch, path) %></h1>
-<% tree.trees.each do |t| %>
-  /<a href="/repo/<%= repo.name %>/tree/<%= branch %><%= path %><%= t.basename %>"><%= t.name %></a><br>
-<%end%>
-<% tree.blobs.each do |b| %>
-  <a href="/repo/<%= repo.name %>/blob/<%= branch %><%= path %><%= b.basename%>"><%= b.name %></a><br>
-<%end%>
+<%= breadcrumb_path(repo.name, branch, path) %>
+<table class="table table-bordered table-striped tree">
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>age</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% tree.trees.each do |t| %>
+      <% commit = repo.log(branch, path[1..-1]+t.basename+"/", :max_count => 1).first %>
+      <tr>
+        <td><i class="icon-folder-close"></i> <a href="/repo/<%= repo.name %>/tree/<%= branch %><%= path %><%= t.basename %>"><%= t.name %></a></td>
+        <td><%= commit_time(commit.committed_date) %></td>
+        <td><a href="<%= url("repo/#{repo.name}/commit/#{commit.id}") %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
+      </tr>
+      <%end%>
+      <% tree.blobs.each do |b| %>
+      <% commit = repo.log(branch, path[1..-1]+b.basename, :max_count => 1).first %>
+      <tr>
+        <td><i class="icon-file"></i> <a href="/repo/<%= repo.name %>/blob/<%= branch %><%= path %><%= b.basename%>"><%= b.name %></a></td>
+        <td><%= commit_time(commit.committed_date) %></td>
+        <td><a href="<%= url("repo/#{repo.name}/commit/#{commit.id}") %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
+      </tr>
+      <%end%>
+  </tbody>
+</table>

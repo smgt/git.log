@@ -28,8 +28,8 @@ module Gitlog
       @repository.commits *args
     end
 
-    def commit(*args)
-      @repository.commt *args
+    def commit(id)
+      @repository.commit(id)
     end
 
     def diff(*args)
@@ -46,6 +46,14 @@ module Gitlog
 
     def tags
       @repository.tags
+    end
+
+    def tree *args
+      @repository.tree *args
+    end
+
+    def lstree *args
+      @repository.lstree *args
     end
 
   end

@@ -34,8 +34,8 @@
         <h1><%= repo.title %><%= " <span class=\"light\">"+branch+"</span>" if branch %></h1>
           <div class="subnav">
             <ul class="nav nav-tabs">
-              <li <%= 'class="active"' if subnav == :history %>><a href="/repo/<%= repo.name %>/commits<%= "/"+branch if branch %>">History</a></li>
-              <li <%= 'class="active"' if subnav == :browse %>><a href="/repo/<%= repo.name %>/tree<%= "/"+branch if branch %>">Browse</a></li>
+              <li <%= 'class="active"' if subnav == :commits %>><a href="/repo/<%= repo.name %>/commits<%= "/"+branch if branch %>">Commits</a></li>
+              <li <%= 'class="active"' if subnav == :files %>><a href="/repo/<%= repo.name %>/tree<%= "/"+branch if branch %>">Files</a></li>
               <li <%= 'class="active"' if subnav == :branches %>><a href="/repo/<%= repo.name %>/branches">Branches</a></li>
             </ul>
           </div>

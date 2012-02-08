@@ -68,7 +68,7 @@ class GitLog < Sinatra::Base
         :commits => commits,
         :branch => params[:branch],
         :path => params[:splat].last,
-        :subnav => :history
+        :subnav => :commits
       }
     end
 
@@ -76,19 +76,19 @@ class GitLog < Sinatra::Base
     get "/commits" do
       branch = "master"
       commits = @repo.commits(branch, 100)
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => branch, :subnav => :history}
+      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => branch, :subnav => :commits}
     end
 
     # Show latest commits for a branch
     get "/commits/:branch" do
       commits = @repo.commits(params[:branch], 100)
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :subnav => :history}
+      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :subnav => :commits }
     end
 
     # Show commit
     get "/commit/:sha" do
       commit = @repo.commits(params[:sha])
-      erb :commit, :locals => {:commit => commit.first, :repo => @repo}
+      erb :commit, :locals => {:commit => commit.first, :repo => @repo, :branch => 'master', :subnav => :commits }
     end
 
     get "/tree" do
@@ -98,7 +98,7 @@ class GitLog < Sinatra::Base
     # Show the tree for a certain target
     get "/tree/:branch" do
       tree = @repo.tree(params[:branch])
-      erb :tree, :locals => {:tree => tree, :path => "/", :branch => params[:branch], :repo => @repo, :subnav => :browse}
+      erb :tree, :locals => {:tree => tree, :path => "/", :branch => params[:branch], :repo => @repo, :subnav => :files}
     end
 
     # Show tree from HEAD of a branch
@@ -108,7 +108,7 @@ class GitLog < Sinatra::Base
         tree = tree / params[:splat].first
         path = "/" + params[:splat].first + "/"
       end
-      erb :tree, :locals => {:tree => tree, :path => path, :branch => params[:branch], :repo => @repo, :subnav => :browse}
+      erb :tree, :locals => {:tree => tree, :path => path, :branch => params[:branch], :repo => @repo, :subnav => :files }
     end
 
     # Show a blob
