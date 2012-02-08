@@ -28,6 +28,14 @@ module Gitlog
       @repository.commits *args
     end
 
+    def commit(*args)
+      @repository.commt *args
+    end
+
+    def diff(*args)
+      @repository.diff *args
+    end
+
     def log(*args)
       @repository.log *args
     end

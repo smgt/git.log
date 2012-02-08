@@ -35,7 +35,9 @@ module Gitlog
 
     def colorize_diff(diff)
       diff = PrettyDiff::Diff.new(diff)
-      return diff.to_html
+      html = diff.to_html
+      return html
+      return "<pre><code>#{h diff}</code></pre>"
     end
 
     def gravatar(email, size="200")

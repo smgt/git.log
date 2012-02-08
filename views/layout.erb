@@ -8,6 +8,7 @@
   <nav>
   <% if defined?(repo) %>
     <%= repo.title %>: 
+    <a href="/repo/<%= repo.name %>/commits">History</a> | 
     <a href="/repo/<%= repo.name %>/tree">Tree</a> | 
     <a href="/repo/<%= repo.name %>/branches">Branches</a> | 
   <% end %>

@@ -35,6 +35,12 @@ class GitLog < Sinatra::Base
     erb :index2, :locals => {:repos => repositories}
   end
 
+  get "/repo/:repo/compare/:target" do
+    targets = params[:target].split("...")
+    diffs = @repo.diff(targets.first, targets.last)
+    erb :compare, :locals => {:repo => @repo, :diffs => diffs}
+  end
+
   # List branches
   get "/repo/:repo/branches" do
     branches = @repo.branches
