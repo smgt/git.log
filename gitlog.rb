@@ -9,144 +9,86 @@ require "pretty_diff"
 require "fileutils"
 require "pygments.rb"
 
+require "lib/config"
+require "lib/helpers"
+require "lib/repository"
+
 class Grit::Blob
   include Linguist::BlobHelper
 end
 
 class GitLog < Sinatra::Base
 
-  if File.exists?("config.yaml")
-    @@config = YAML.load_file("config.yaml")
-    @@repo = Grit::Repo.new @@config["repository"]
-    @@repo_name = File.basename @@config["repository"]
-  else
-    puts "Not config.yaml present.."
-    exit 0
-  end
-
   helpers do
-
-    def h(input)
-      return input.nil? ? "" : CGI.escapeHTML("#{input}")
-    end
-
-    def image?(path)
-      ['.png', '.jpg', '.jpeg', '.gif'].include?(File.extname(path))
-    end
-
-    def blob_img_tag(commit, path)
-      return '<img src="/raw/blob/'+ commit +'/'+path+'" alt="'+commit+'">'
-    end
-
-    def breadcrumb_path(commit, path)
-      path = path.split("/")
-      link = Array.new
-      last = path.pop
-      link << last
-      while path.size > 0
-        link << '<a href="/tree/'+ commit + '/'+path.join("/")+'">'+path.pop+'</a>'
-      end
-
-      if /[a-f0-9]{40}/ =~ commit
-        commit_short = commit[0..6]
-      else
-        commit_short = commit
-      end
-      link << '<a href="/tree/'+ commit +'">'+commit_short+'</a>'
-      return link.reverse.join(" / ")
-    end
-
-    def colorize_diff(diff)
-      diff = PrettyDiff::Diff.new(diff)
-      return diff.to_html
-    end
-
-    def gravatar(email, size="200")
-      return "http://www.gravatar.com/avatar/" + Digest::MD5.hexdigest(email) + "?s=" + size
-    end
-
-    def commits_list(commits)
-      data = ""
-      data += '<table class="commits">'
-      last_date = nil
-      commits.each do |commit|
-        if last_date.nil? || last_date.strftime("%Y-%m-%d") != commit.date.strftime("%Y-%m-%d") 
-          data << '<tr class="date_separator">'
-          data << '<td colspan="3">' + commit.date.strftime("%Y-%m-%d") + '</td>'
-          data << '</tr>'
-        end
-        data << '<tr class="commit">'
-        data << '<td><img src="' + gravatar(commit.author.email, "36x36") +'"></td>'
-        data << '<td>' + h(commit.message.split("\n").first) + '<br><span class="info">Authored by <span class="author">' + commit.author.name + '</span> at <span class="date">' + commit.date.strftime("%Y-%m-%d %H:%M:%S") + '</span></span></td>'
-        data << '<td><a href="/commit/' + commit.id + '">' + commit.id[0..4] + '</a></td>'
-        data << '</tr>'
-        last_date = commit.date
-      end
-      data << '</table>'
-      return data
-    end
-
+    include Gitlog::Helpers
   end
 
-  # Redirect to HEAD
+  before "/repo/:repo/*" do
+    @repo = Gitlog::Repository.new params[:repo]
+    if @repo.repository.nil?
+      halt 404, "No repository by that name"
+    end
+  end
+
   get "/" do
-    redirect to("/commits/master")
+    repositories = Gitlog::Config.new.repositories
+    erb :index2, :locals => {:repos => repositories}
   end
 
   # List branches
-  get "/branches" do
-    branches = @@repo.branches
+  get "/repo/:repo/branches" do
+    branches = @repo.branches
     erb :branches, :locals => {:branches => branches}
   end
 
-  get "/commits/:branch/*" do
-    commits = @@repo.log(params[:branc], params[:splat].last)
-    erb :history, :locals => {:repo => @@repo, :commits => commits, :branch => params[:branch], :path => params[:splat].last}
+  get "/repo/:repo/commits/:branch/*" do
+    commits = @repo.log(params[:branch], params[:splat].last)
+    erb :history, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :path => params[:splat].last}
+  end
+
+  # Redirect to master
+  get "/repo/:repo/commits" do
+    redirect to "/repo/#{params[:repo]}/commits/master"
   end
 
   # Show latest commits for a branch
-  get "/commits/:branch" do
-    commits = @@repo.commits(params[:branch], 50)
-    erb :commits, :locals => {:repo => @@repo, :commits => commits, :branch => params[:branch]}
+  get "/repo/:repo/commits/:branch" do
+    commits = @repo.commits(params[:branch], 50)
+    erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch]}
   end
 
   # Show commit
-  get "/commit/:sha" do
-    commit = @@repo.commits(params[:sha])
+  get "/repo/:repo/commit/:sha" do
+    commit = @repo.commits(params[:sha])
     erb :commit, :locals => {:commit => commit.first}
   end
 
-  # Show the tree for a certain branch
-  get "/tree/:branch" do
-    tree = @@repo.tree(params[:branch])
-    erb :tree, :locals => {:tree => tree, :path => "", :branch => params[:branch]} 
-  end
-
-  # Show a tree based on sha
-  get %r{/tree/([a-f0-9]{40})$} do
-    sha = params[:captures].first
-    tree = @@repo.tree(sha)
-    erb :tree, :locals => {:tree => tree}
+  # Show the tree for a certain target
+  get "/repo/:repo/tree/:branch" do
+    tree = @repo.tree(params[:branch])
+    erb :tree, :locals => {:tree => tree, :path => "", :branch => params[:branch], :repo => @repo}
   end
 
   # Show tree from HEAD of a branch
-  get "/tree/:branch/*" do
-    tree = @@repo.tree(params[:branch])
+  get "/repo/:repo/tree/:branch/*" do
+    tree = @repo.tree(params[:branch])
     if params[:splat].first
       tree = tree / params[:splat].first
     end
-    erb :tree, :locals => {:tree => tree, :path => params[:splat].first, :branch => params[:branch]}
+    erb :tree, :locals => {:tree => tree, :path => params[:splat].first, :branch => params[:branch], :repo => @repo}
   end
 
   # Show a blob
-  get "/blob/:commit/*" do
-    tree = @@repo.tree(params[:commit])
+  get "/repo/:repo/blob/:commit/*" do
+    tree = @repo.tree(params[:commit])
     blob = tree / params[:splat].first
-    erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree, :commit_id => params[:commit]}
+    erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree, :commit_id => params[:commit], :repo => @repo}
   end
 
-  get "/raw/blob/:commit/*" do
-    cache_path = @@config["cache"]["blob"]
+  get "/repo/:repo/raw/blob/:commit/*" do
+    config = Gitlog::Config.new
+    cache_path = "#{config["cache"]["blob"]}#{params[:repo]}/"
+
     if File.exists?("#{cache_path}#{params[:commit]}/#{params[:splat].first}")
       send_file("#{cache_path}#{params[:commit]}/#{params[:splat].first}")
     else
@@ -167,7 +109,7 @@ class GitLog < Sinatra::Base
   # Well...
   get "/blame/:branch/:commit/*" do
     #blame = Grit::Blame.new(params[:branch], params[:splat].first, params[:commit])
-    return false
+    halt 403, "Blame is not an option!"
   end
 
   # Show commits by author

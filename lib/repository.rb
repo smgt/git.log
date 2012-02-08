@@ -1,0 +1,40 @@
+module Gitlog
+  class Repository
+
+    attr_reader :repository, :name, :title, :path
+
+    def initialize(repository)
+      config ||= Gitlog::Config.new
+      @config = config.repository(repository)
+      if @config.nil?
+        @repository = nil
+      else
+        begin
+          @repository ||= Grit::Repo.new @config[:path]
+          @name = repository
+          @title = @config[:title]
+          @path = @config[:path]
+        rescue Grit::NoSuchPathError
+          @repository = nil
+        end
+      end
+    end
+
+    def branches
+      @repository.branches
+    end
+
+    def commits(*args)
+      @repository.commits *args
+    end
+
+    def log(*args)
+      @repository.log *args
+    end
+
+    def tree *args
+      @repository.tree *args
+    end
+
+  end
+end

@@ -1,3 +1,3 @@
-<h1><span class="slim light">History:</span> <%= breadcrumb_path branch, path %></h1>
-<a href="/tree/<%= branch %>">Tree</a><br>
-<%= commits_list(commits) %>
+<h1><span class="slim light">History:</span> <%= breadcrumb_path repo.name, branch, path %></h1>
+<a href="/repo/<%= repo.name%>/tree/<%= branch %>">Tree</a><br>
+<%= commits_list(repo.name, commits) %>
