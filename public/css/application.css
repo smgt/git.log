@@ -42,6 +42,32 @@ small {
   color: #444;
 }
 
-small .date {
+.commits span.date {
   color: #aaa;
 }
+
+.commits span.author-name,
+.commits span.committer-name {
+  color: #333;
+}
+
+.commits small.committer {
+  padding-left: 0.5em;
+}
+
+.commits span.message pre {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.commits span.message {
+  display: none;
+}
+
+.commits span.message-short {
+  display: block;
+  font-weight: bold;
+}
+
+

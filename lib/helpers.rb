@@ -67,15 +67,21 @@ module Gitlog
       last_date = nil
       commits.each do |commit|
         if last_date.nil? || last_date.strftime("%Y-%m-%d") != commit.date.strftime("%Y-%m-%d") 
-          data << '</table><table class="table table-striped table-bordered">'
+          data << '</table><table class="table table-striped table-bordered commits">'
           data << '<tr class="date_separator">'
           data << '<td colspan="3" class="commit-date">' + commit.date.strftime("%Y-%m-%d") + '</td>'
           data << '</tr>'
         end
         data << '<tr class="commit">'
         data << '<td width="36px"><img src="' + gravatar(commit.author.email, "36x36") +'"></td>'
-        data << '<td>' + h(commit.message.split("\n").first) + '<br><small>Authored by <span class="author">' + commit.author.name + '</span> at <span class="date">' + commit.date.strftime("%Y-%m-%d %H:%M:%S") + '</span></span></td>'
-        data << '<td width="110px"><a href="/repo/' + repo + '/commit/' + commit.id + '" class="btn btn-info pull-right">' + commit.id[0..4] + '&nbsp;&#8594;</a></td>'
+        data << '<td><span class="message-short">' + h(commit.short_message)
+        data << '&nbsp;<a href="#" class="btn">More</a>' if commit.message.split("\n").count > 2
+        data << '</span>'
+        data << '<span class="message"><pre>' + h(commit.message.split("\n")[2..-1].join("\n")) + '</pre></span>' if commit.message.split("\n").count > 2
+        data << '<small class="light"><span class="author-name">' + commit.author.name + '</span> authored <span class="date">' + commit_time( commit.authored_date ) + '</span></small>'
+        data << '</br><small class="light committer">&#8618; <span class="committer-name">' + commit.committer.name + '</span> committed <span class="date">' + commit_time( commit.committed_date ) + '</span></small>' if commit.author.email != commit.committer.email
+        data << '</td>'
+        data << '<td width="110px"><a href="'+url("/repo/#{repo}/commit/#{commit.id}") + '" class="btn btn-info pull-right">' + commit.id[0..4] + '&nbsp;&#8594;</a></td>'
         data << '</tr>'
         last_date = commit.date
       end
