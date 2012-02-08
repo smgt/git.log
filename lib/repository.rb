@@ -44,5 +44,9 @@ module Gitlog
       @repository.tree *args
     end
 
+    def tags
+      @repository.tags
+    end
+
   end
 end

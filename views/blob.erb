@@ -1,4 +1,4 @@
-<h1><span class="slim light"><%= repo.title %>:</span> <%= breadcrumb_path(repo.name, commit_id, path)  %> </h1>
+<%= breadcrumb_path(repo.name, commit_id, path)  %>
 <a href="/repo/<%= repo.name %>/commits/<%= commit_id %>/<%= path %>">History</a><br>
 <% if blob.image? %>
   <%= blob_img_tag(commit_id, path) %>

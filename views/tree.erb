@@ -1,7 +1,7 @@
-<h1><span class="slim light"><%= repo.title %>:</span> <%= breadcrumb_path("gitlog", branch, path) %></h1>
+<%= breadcrumb_path(repo.name, branch, path) %></h1>
 <% tree.trees.each do |t| %>
-  /<a href="/repo/<%= repo.name %>/tree/<%= branch %>/<%= path if defined?(path) && !path.nil?%><%= t.basename %>/"><%= t.name %></a><br>
+  /<a href="/repo/<%= repo.name %>/tree/<%= branch %><%= path %><%= t.basename %>"><%= t.name %></a><br>
 <%end%>
 <% tree.blobs.each do |b| %>
-  <a href="/repo/<%= repo.name %>/blob/<%= branch %>/<%= path if defined?(path) && !path.nil? %><%= b.basename%>"><%= b.name %></a><br>
+  <a href="/repo/<%= repo.name %>/blob/<%= branch %><%= path %><%= b.basename%>"><%= b.name %></a><br>
 <%end%>

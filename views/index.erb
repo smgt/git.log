@@ -1,4 +1,16 @@
-<% commits.each do |commit| %>
-  <a href="/repo/<%= repo %>/commit/<%= commit.id %>"><%= commit.id[0..4] %></a> - <%= commit.message %> - <%= commit.author %><br/>
-<%end%>
-
+<div class="row">
+  <span class="span12">
+    <h1>Repositories</h1>
+    <div class="row">
+    <% repos.each do |repo, keys| %>
+      <span class="span4">
+        <div class="well" >
+          <h2><%= keys[:title] %></h2>
+          <p><%= keys[:description] %></p>
+          <a href="/repo/<%= repo.to_s %>/commits" class="btn btn-info"><i class="icon-book icon-white"></i> View</a>
+        </div>
+      </span>
+    <% end %>
+    </div>
+  </span>
+</div>

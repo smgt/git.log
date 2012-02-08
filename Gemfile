@@ -1,6 +1,7 @@
 source "http://rubygems.org"
 gem "grit"
-gem "sinatra"
+gem "sinatra", "~> 1.3.0"
+gem "sinatra-contrib"
 gem "charlock_holmes"
 gem "pretty_diff"
 gem "linguist", :git => 'https://github.com/github/linguist.git'

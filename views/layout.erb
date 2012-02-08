@@ -1,21 +1,53 @@
 <html>
 <head>
 <title>Git.log</title>
-<link rel="stylesheet" href="/stylesheets/screen.css">
-<link rel="stylesheet" href="/stylesheets/syntax.css">
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/application.css">
+<link rel="stylesheet" href="/css/syntax.css">
 </head>
 <body>
-  <nav>
-  <% if defined?(repo) %>
-    <%= repo.title %>: 
-    <a href="/repo/<%= repo.name %>/commits">History</a> | 
-    <a href="/repo/<%= repo.name %>/tree">Tree</a> | 
-    <a href="/repo/<%= repo.name %>/branches">Branches</a> | 
-  <% end %>
-  <a href="/">Show repositories</a>
-  </nav>
-  <div id="wrapper">
-    <%= yield %>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="/">Git.log</a>
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Repositories<b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <% @config.repositories.each do |name, info| %>
+                  <li><a href="/repo/<%= name %>/commits"><%= info[:title] %></a></li>
+                <% end %>
+              </ul>
+            </li>
+
+
+
+          </ul>
+      </div>
+    </div>
   </div>
+  <div class="container">
+      <% if defined?(repo) %>
+        <header id="header">
+        <h1><%= repo.title %><%= " <span class=\"light\">"+branch+"</span>" if branch %></h1>
+          <div class="subnav">
+            <ul class="nav nav-tabs">
+              <li <%= 'class="active"' if subnav == :history %>><a href="/repo/<%= repo.name %>/commits<%= "/"+branch if branch %>">History</a></li>
+              <li <%= 'class="active"' if subnav == :browse %>><a href="/repo/<%= repo.name %>/tree<%= "/"+branch if branch %>">Browse</a></li>
+              <li <%= 'class="active"' if subnav == :branches %>><a href="/repo/<%= repo.name %>/branches">Branches</a></li>
+            </ul>
+          </div>
+        </header>
+      <% end %>
+    <%= yield %>
+  <footer>
+  <a href="http://github.com/simon/git.log">Git.log</a> is open source
+  </footer>
+  </div>
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/application.js"></script>
 </body>
 </html>
