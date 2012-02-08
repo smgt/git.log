@@ -6,6 +6,11 @@
 </head>
 <body>
   <nav>
+  <% if defined?(repo) %>
+    <%= repo.title %>: 
+    <a href="/repo/<%= repo.name %>/tree">Tree</a> | 
+    <a href="/repo/<%= repo.name %>/branches">Branches</a> | 
+  <% end %>
   <a href="/">Show repositories</a>
   </nav>
   <div id="wrapper">

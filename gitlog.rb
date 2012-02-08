@@ -38,7 +38,7 @@ class GitLog < Sinatra::Base
   # List branches
   get "/repo/:repo/branches" do
     branches = @repo.branches
-    erb :branches, :locals => {:branches => branches}
+    erb :branches, :locals => {:branches => branches, :repo => @repo}
   end
 
   get "/repo/:repo/commits/:branch/*" do
@@ -60,7 +60,11 @@ class GitLog < Sinatra::Base
   # Show commit
   get "/repo/:repo/commit/:sha" do
     commit = @repo.commits(params[:sha])
-    erb :commit, :locals => {:commit => commit.first}
+    erb :commit, :locals => {:commit => commit.first, :repo => @repo}
+  end
+
+  get "/repo/:repo/tree" do
+    redirect to "/repo/#{params[:repo]}/tree/master"
   end
 
   # Show the tree for a certain target
