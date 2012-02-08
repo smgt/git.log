@@ -75,8 +75,9 @@ class GitLog < Sinatra::Base
     # Redirect to master
     get "/commits" do
       branch = "master"
-      commits = @repo.commits(branch, 100)
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => branch, :subnav => :commits}
+      page = params[:page] || 0
+      commits = @repo.commits(branch, 100, (page.to_i * 100))
+      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => branch, :subnav => :commits, :page => page}
     end
 
     # Show latest commits for a branch

@@ -1,8 +1,10 @@
 <%= commits_list(repo.name, commits) %>
 <ul class="pager">
+  <% if commits.count > 100 %>
   <li class="previous">
     <a href="?page=<%= (page.to_i + 1) %>">&larr; Older</a>
   </li>
+  <% end %>
   <% if page.to_i > 0 %>
   <li class="next">
     <a href="?page=<%= (page.to_i - 1) %>">Newer &rarr;</a>
