@@ -81,8 +81,9 @@ class GitLog < Sinatra::Base
 
     # Show latest commits for a branch
     get "/commits/:branch" do
-      commits = @repo.commits(params[:branch], 100)
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :subnav => :commits }
+      page = params[:page] || 0
+      commits = @repo.commits(params[:branch], 100, (page.to_i * 100))
+      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :subnav => :commits, :page => page }
     end
 
     # Show commit
@@ -147,10 +148,6 @@ class GitLog < Sinatra::Base
     halt 403, "Blame is not an option!"
   end
 
-  # Show commits by author
-  get "/author/:email" do
-    return params[:email]
-  end
 
   get "/about" do
     erb :about

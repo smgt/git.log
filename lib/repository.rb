@@ -28,6 +28,10 @@ module Gitlog
       @repository.commits *args
     end
 
+    def commits_since(*args)
+      @repository.commits_since *args
+    end
+
     def commit(id)
       @repository.commit(id)
     end
