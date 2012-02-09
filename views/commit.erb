@@ -1,37 +1,41 @@
-<h1>
-<%=h commit.short_message %>
-</h1>
-<div id="author">
-  Author: <%= commit.author %>
+<p>
+<div class="commit message well">
+<% msg = commit.message.split("\n") %>
+<h2><%= msg.shift%></h2>
+<pre>
+<%= msg.join("\n") %>
+</pre>
+<div class="author-committer">
+  <div class="author">
+    <img src="<%= gravatar(commit.author.email, "25x25") %>" class="author"/>
+    <span class="light"><span class="author-name"><%= commit.author %></span> authored <%= commit_time commit.authored_date %></span>
+  </div>
+  <div class="committer">
+  </div>
 </div>
-<div id="committer">
-  Committer: <%= commit.committer %>
 </div>
+</p>
 <div id="commit-id">
   SHA: <%= commit.id %>
 </div>
-<p>
-<div id="message">
-  <pre>
-    <%=h commit.message %>
-  </pre>
+<div id="commit-parent">
+  Parent: <a href="/repo/<%= repo.name %>/commit/<%= commit.parents.first.id %>"><%= commit.parents.first.id %></a>
 </div>
-</p>
-<div class="diff_files">
+<div class="diff-files">
   <% commit.diffs.each_with_index do |diff, index| %>
     <% if diff.new_file %>
-      <span class="btn btn-success"><i class="icon-plus icon-white"></i></span> <a href="#<%= index%>"><%= diff.b_path %></a><br>
+      <div class="diff-file"><span class="btn btn-success"><i class="icon-plus icon-white"></i></span> <a href="#<%= index%>"><%= diff.b_path %></a></div>
     <% elsif diff.deleted_file %>
-      <span class="btn btn-danger"><i class="icon-minus icon-white"></i></span> <%= diff.b_path %><br>
+      <div class="diff-file"><span class="btn btn-danger"><i class="icon-minus icon-white"></i></span> <%= diff.b_path %></div>
     <% else %>
-      <span class="btn btn-info"><i class="icon-repeat icon-white"></i></span> <a href="#<%= index %>"><%= diff.b_path %></a><br>
+      <div class="diff-file"><span class="btn btn-info"><i class="icon-repeat icon-white"></i></span> <a href="#<%= index %>"><%= diff.b_path %></a></div>
     <% end %>
   <% end %>
 </div>
 <% commit.diffs.each_with_index do |diff, index| %>
 <div class="diff">
   <div class="header">
-    <a name="<%= index %>"><%= diff.b_path %></a>
+    <i class="icon-file"></i> <a name="<%= index %>" title="<%= diff.b_path %>"></a><%= diff.b_path %>
   </div>
     <% if image?(diff.b_path) %>
       <div class="image">

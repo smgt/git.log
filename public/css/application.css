@@ -43,13 +43,31 @@ small {
   color: #444;
 }
 
+.commit.message pre {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.message .author-committer {
+  margin-top: 1em;
+  border-top: 1px solid #d0d0d0;
+  padding-top: 1em;
+}
+
 .commits span.date {
   color: #aaa;
 }
 
-.commits span.author-name,
-.commits span.committer-name {
+span.author-name,
+span.committer-name {
   color: #333;
+}
+
+img.author {
+  vertical-align: -8px;
+  border: 1px solid #d0d0d0;
 }
 
 .commits small.committer {
@@ -90,6 +108,20 @@ small {
 
 .diff {
   margin-top: 1em;
+}
+
+.diff-files {
+  margin-top: 1em;
+}
+
+.diff-file {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-top: 1px solid #d0d0d0;
+}
+
+.diff-file:last-child {
+  border-bottom: 1px solid #d0d0d0;
 }
 
 .diff .header {
