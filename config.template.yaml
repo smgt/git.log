@@ -1,3 +1,9 @@
-repository: /full/path/to/bare/repository.git
-cache:
-  blob: /path/to/blob/image/caches
+--- 
+:repositories: 
+  :gitlog: # Unique identifier of the repo 
+    :title: Git.log # A human readable title
+    :path: /var/git/git.log.git # Location of the bare repo
+    :description: A Sinatra page to view git repositories # A short description of the repo
+    :tracker_ticket_url: https://trac.net/ticket/ # Base URL if you use a ticket system, will look for #123 in commit messages
+cache: 
+  blob: cache/blob/ # location of cache
