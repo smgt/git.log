@@ -117,7 +117,7 @@ class GitLog < Sinatra::Base
     get "/blob/:commit/*" do
       tree = @repo.tree(params[:commit])
       blob = tree / params[:splat].first
-      erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree, :commit_id => params[:commit], :repo => @repo}
+      erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree, :commit_id => params[:commit], :branch => params[:commit], :repo => @repo, :subnav => :files}
     end
 
     get "/raw/blob/:commit/*" do
