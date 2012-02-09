@@ -52,7 +52,7 @@ module Gitlog
     end
 
     def gravatar(email, size="200")
-      return "http://www.gravatar.com/avatar/" + Digest::MD5.hexdigest(email) + "?s=" + size
+      return "//www.gravatar.com/avatar/" + Digest::MD5.hexdigest(email) + "?s=" + size
     end
 
     def commit_time(time)
