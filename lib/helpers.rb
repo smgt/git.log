@@ -72,7 +72,7 @@ module Gitlog
         end
         data << '<tr class="commit">'
         data << '<td width="36px"><img src="' + gravatar(commit.author.email, "36x36") +'"></td>'
-        data << '<td><span class="message-short"><a href="repo/'+repo+'/commit/'+commit.id+'">' + h(commit.short_message) + '</a>'
+        data << '<td><span class="message-short"><a href="/repo/'+repo+'/commit/'+commit.id+'">' + h(commit.short_message) + '</a>'
         data << '&nbsp;<a href="#" class="btn">More</a>' if commit.message.split("\n").count > 2
         data << '</span>'
         data << '<span class="message"><pre>' + h(commit.message.split("\n")[2..-1].join("\n")) + '</pre></span>' if commit.message.split("\n").count > 2
