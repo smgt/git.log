@@ -72,14 +72,14 @@ module Gitlog
         end
         data << '<tr class="commit">'
         data << '<td width="36px"><img src="' + gravatar(commit.author.email, "36x36") +'"></td>'
-        data << '<td><span class="message-short"><a href="'+url("repo/#{repo}/commit/#{commit.id}") +'">' + h(commit.short_message) + '</a>'
+        data << '<td><span class="message-short"><a href="repo/'+repo+'/commit/'+commit.id+'">' + h(commit.short_message) + '</a>'
         data << '&nbsp;<a href="#" class="btn">More</a>' if commit.message.split("\n").count > 2
         data << '</span>'
         data << '<span class="message"><pre>' + h(commit.message.split("\n")[2..-1].join("\n")) + '</pre></span>' if commit.message.split("\n").count > 2
         data << '<small class="light"><span class="author-name">' + commit.author.name + '</span> authored <span class="date">' + commit_time( commit.authored_date ) + '</span></small>'
         data << '</br><small class="light committer">&#8618; <span class="committer-name">' + commit.committer.name + '</span> committed <span class="date">' + commit_time( commit.committed_date ) + '</span></small>' if commit.author.email != commit.committer.email
         data << '</td>'
-        data << '<td width="110px"><a href="'+url("/repo/#{repo}/commit/#{commit.id}") + '" class="btn btn-info pull-right">' + commit.id[0..4] + '&nbsp;&#8594;</a></td>'
+        data << '<td width="110px"><a href="/repo/'+repo+'/commit/'+commit.id+'" class="btn btn-info pull-right">' + commit.id[0..4] + '&nbsp;&#8594;</a></td>'
         data << '</tr>'
         last_date = commit.date
       end

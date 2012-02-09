@@ -13,7 +13,7 @@
       <tr>
         <td><i class="icon-folder-close"></i> <a href="/repo/<%= repo.name %>/tree/<%= branch %><%= path %><%= t.basename %>"><%= t.name %></a></td>
         <td><%= commit_time(commit.committed_date) %></td>
-        <td><a href="<%= url("repo/#{repo.name}/commit/#{commit.id}") %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
+        <td><a href="/repo/<%= repo.name %>/commit/<%= commit.id %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
       </tr>
       <%end%>
       <% tree.blobs.each do |b| %>
@@ -21,7 +21,7 @@
       <tr>
         <td><i class="icon-file"></i> <a href="/repo/<%= repo.name %>/blob/<%= branch %><%= path %><%= b.basename%>"><%= b.name %></a></td>
         <td><%= commit_time(commit.committed_date) %></td>
-        <td><a href="<%= url("repo/#{repo.name}/commit/#{commit.id}") %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
+        <td><a href="/repo/<%= repo.name %>/commit/<%= commit.id %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
       </tr>
       <%end%>
   </tbody>
