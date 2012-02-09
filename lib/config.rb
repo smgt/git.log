@@ -19,6 +19,11 @@ module Gitlog
       @config[:repositories]
     end
 
+    def tracker_ticket_url(name)
+      repo = repository(name)
+      return repo[:tracker_ticket_url]
+    end
+
     def repository(name)
       @config[:repositories][name.to_sym]
     end

@@ -51,6 +51,15 @@ module Gitlog
       return diff.to_html
     end
 
+    def tracker_ticket_url(repo, message)
+      config = Gitlog::Config.new
+      tracker = config.tracker_ticket_url(repo)
+      if tracker
+        message.gsub!(/#(\d+)/, '<a href="'+tracker+'\1">#\1</a>')
+      end
+      return message
+    end
+
     def gravatar(email, size="200")
       return "https://secure.gravatar.com/avatar/" + Digest::MD5.hexdigest(email) + "?s=" + size
     end
@@ -75,7 +84,7 @@ module Gitlog
         data << '<td><span class="message-short"><a href="/repo/'+repo+'/commit/'+commit.id+'">' + h(commit.short_message) + '</a>'
         data << '&nbsp;<a href="#" class="btn">More</a>' if commit.message.split("\n").count > 2
         data << '</span>'
-        data << '<span class="message"><pre>' + h(commit.message.split("\n")[2..-1].join("\n")) + '</pre></span>' if commit.message.split("\n").count > 2
+        data << '<span class="message"><pre>' + tracker_ticket_url(repo, h(commit.message.split("\n")[2..-1].join("\n"))) + '</pre></span>' if commit.message.split("\n").count > 2
         data << '<small class="light"><span class="author-name">' + commit.author.name + '</span> authored <span class="date">' + commit_time( commit.authored_date ) + '</span></small>'
         data << '</br><small class="light committer">&#8618; <span class="committer-name">' + commit.committer.name + '</span> committed <span class="date">' + commit_time( commit.committed_date ) + '</span></small>' if commit.author.email != commit.committer.email
         data << '</td>'
