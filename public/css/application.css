@@ -29,6 +29,10 @@ h1 {
   padding-top: 20px;
 }
 
+.btn-mono {
+  font-family: Menlo, Monaco, mono-space;
+}
+
 table {
   font-size: 13px;
 }
@@ -45,6 +49,14 @@ table.tree tbody {
 small,.small {
   font-size: 0.9em;
   color: #444;
+}
+
+.large {
+  font-size: 1.2em;
+}
+
+.heavy {
+  font-weight: 700;
 }
 
 .commit.message pre {

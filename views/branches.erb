@@ -1,8 +1,28 @@
 <table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Branch</th>
+      <th>Age</th>
+      <th>Message</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
 <% branches.each do |branch| %>
+  <% commit = repo.log(branch.name, "", :max_count => 1).first %>
   <tr>
-    <td><%= repo_link_to repo, branch.name, :page => :commits, :commit => branch.name %></td>
-    <td><%= repo_link_to repo, "Browse files", :page => :tree, :commit => branch.name  %></td>
-</tr>
+    <td><%= repo_link_to repo, branch.name, :page => :commits, :commit => branch.name, :class => "large heavy" %></td>
+    <td><%= commit_time(commit.committed_date) %></td>
+    <td><a href="/repo/<%= repo.name %>/commit/<%= commit.id %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
+    <td width="110px" class="link"><div class="btn-group pull-right">
+      <%= repo_link_to repo, commit.id[0..5], :page => :commit, :commit => commit.id, :class => "btn btn-mono btn-info btn-small" %>
+      <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><%= repo_link_to repo, "View commit", :page => :commit, :commit => commit.id%></li>
+        <li><%= repo_link_to repo, "Browse code", :page => :tree, :commit => commit.id %></li>
+      </ul>
+    </td>
+  </tr>
 <% end %>
+  </tbody>
 </table>
