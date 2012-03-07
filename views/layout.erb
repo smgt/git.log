@@ -1,9 +1,9 @@
 <html>
 <head>
   <title><%= defined?(page_title) ? "#{page_title} - #{repo.name ? repo.name : ""}" : "Git.log"  %></title>
-<link rel="stylesheet" href="/css/bootstrap.min.css">
-<link rel="stylesheet" href="/css/application.css">
-<link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/application.css">
+  <link rel="stylesheet" href="/css/syntax.css">
 </head>
 <body>
   <div class="navbar navbar-fixed-top">
@@ -39,9 +39,9 @@
         </header>
       <% end %>
     <%= yield %>
-  <footer>
-  <a href="http://github.com/simon/git.log">Git.log</a> is open source
-  </footer>
+    <footer>
+      <a href="http://github.com/simon/git.log">Git.log</a> is open source
+    </footer>
   </div>
   <script src="/js/jquery.js"></script>
   <script src="/js/bootstrap.min.js"></script>

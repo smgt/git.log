@@ -1,3 +1,4 @@
+html { -webkit-text-size-adjust:none; }
 body {
   padding-top: 60px;
 }
@@ -28,6 +29,10 @@ h1 {
   padding-top: 20px;
 }
 
+table {
+  font-size: 13px;
+}
+
 table.table tr td.commit-date {
   font-weight: bold;
   background-color: #d9edf7;
@@ -38,8 +43,8 @@ table.tree tbody {
   font-size: 0.8em;
 }
 
-small {
-  font-size: 0.8em;
+small,.small {
+  font-size: 0.9em;
   color: #444;
 }
 
@@ -87,6 +92,7 @@ img.author {
 .commits span.message-short {
   display: block;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .commits span.message-short a { 
@@ -159,3 +165,12 @@ img.author {
   border-radius: 0;
 }
 
+/** Twitter bootstrap fixes **/
+
+table .btn-group .caret {
+  margin-bottom: 7px;
+}
+
+table .btn-group .dropdown-menu {
+  font-size: 100%;
+}
