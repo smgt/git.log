@@ -8,6 +8,27 @@ module Gitlog
       ['.png', '.jpg', '.jpeg', '.gif'].include?(File.extname(path))
     end
 
+    def repo_link_to repo, name, opts={}
+
+      if opts[:commit]
+        commit = "/#{CGI.escape opts.delete(:commit)}"
+      end
+
+      if opts[:page]
+        page = "/#{opts.delete(:page)}"
+      end
+
+      if repo.respond_to?("name")
+        repo = repo.name
+      end
+
+      if opts[:path]
+        path = "/#{opts.delete(:path)}"
+      end
+
+      %(<a href="/repo/#{repo}#{page}#{commit}#{path}" #{opts.inject(""){|m, (k,v)| m+="#{k}=\"#{v}\" " }}>#{name}</a>)
+    end
+
     def blob_img_tag(commit, path)
       return '<img src="/raw/blob/'+ commit +'/'+path+'" alt="'+commit+'">'
     end
@@ -68,9 +89,9 @@ module Gitlog
       time.strftime("%d %B, %Y")
     end
 
+    # @todo: Make readable
     def commits_list(repo, commits)
       data = ""
-      #data += '<table class="table table-striped table-bordered commits">'
       last_date = nil
       data << '<table class="table table-striped table-bordered commits">'
       commits.each do |commit|

@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title><%= repo.name ? "#{repo.name} " : ""  %><%= defined?(title) ? "#{title} / " : ""  %>Git.log</title>
+  <title><%= defined?(page_title) ? "#{page_title} - #{repo.name ? repo.name : ""}" : "Git.log"  %></title>
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/application.css">
 <link rel="stylesheet" href="/css/syntax.css">
@@ -17,7 +17,7 @@
               </a>
               <ul class="dropdown-menu">
                 <% @config.repositories.each do |name, info| %>
-                  <li><a href="/repo/<%= name %>/commits"><%= info[:title] %></a></li>
+                  <li><%= repo_link_to name, info[:title], :page => :commits %></li>
                 <% end %>
               </ul>
             </li>
@@ -31,9 +31,9 @@
         <h1><%= repo.title %><%= " <span class=\"light\">&nbsp/&nbsp;"+branch+"</span>" if branch %></h1>
           <div class="subnav">
             <ul class="nav nav-tabs">
-              <li <%= 'class="active"' if subnav == :commits %>><a href="/repo/<%= repo.name %>/commits<%= "/"+branch if branch %>">Commits</a></li>
-              <li <%= 'class="active"' if subnav == :files %>><a href="/repo/<%= repo.name %>/tree<%= "/"+branch if branch %>">Files</a></li>
-              <li <%= 'class="active"' if subnav == :branches %>><a href="/repo/<%= repo.name %>/branches">Branches</a></li>
+              <li <%= 'class="active"' if subnav == :commits %>><%= repo_link_to repo, "Commits", :page => :commits, :commit => branch %></li>
+              <li <%= 'class="active"' if subnav == :files %>><%= repo_link_to repo, "Files", :page => :tree, :commit => branch %></li>
+              <li <%= 'class="active"' if subnav == :branches %>><%= repo_link_to repo, "Branches", :page => :branches%></li>
             </ul>
           </div>
         </header>

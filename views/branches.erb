@@ -1,3 +1,8 @@
+<table class="table table-bordered table-striped">
 <% branches.each do |branch| %>
-  <a href="/repo/<%= repo.name %>/commits/<%= branch.name %>"><%= branch.name %></a> <a href="/repo/<%= repo.name %>/tree/<%= branch.name %>">Tree</a><br>
+  <tr>
+    <td><%= repo_link_to repo, branch.name, :page => :commits, :commit => branch.name %></td>
+    <td><%= repo_link_to repo, "Browse files", :page => :tree, :commit => branch.name  %></td>
+</tr>
 <% end %>
+</table>

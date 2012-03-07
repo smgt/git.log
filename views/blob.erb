@@ -1,5 +1,5 @@
 <%= breadcrumb_path(repo.name, commit_id, path)  %>
-<a href="/repo/<%= repo.name %>/commits/<%= commit_id %>/<%= path %>">History</a><br>
+<%= repo_link_to repo, "History", :page => :commits, :commit => commit_id, :path => path %><br/>
 <% if blob.image? %>
   <%= blob_img_tag(commit_id, path) %>
 <% else %>

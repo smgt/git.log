@@ -19,7 +19,7 @@
   SHA: <%= commit.id %>
 </div>
 <div id="commit-parent">
-  Parent: <a href="/repo/<%= repo.name %>/commit/<%= commit.parents.first.id %>"><%= commit.parents.first.id %></a>
+  Parent: <%= repo_link_to repo, commit.parents.first.id, :page => :commits, :commit => commit.parents.first.id %>
 </div>
 <div class="diff-files">
   <% commit.diffs.each_with_index do |diff, index| %>

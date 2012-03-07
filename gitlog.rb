@@ -51,13 +51,25 @@ class GitLog < Sinatra::Base
     get "/compare/:target" do
       targets = params[:target].split("...")
       commits = @repo.commits_between(targets.first, targets.last)
-      erb :compare, :locals => {:repo => @repo, :commits => commits, :branch => @branch, :subnav => :commits, :title=>"Comparing commits"}
+      erb :compare, :locals => {
+        :repo => @repo,
+        :commits => commits,
+        :branch => @branch,
+        :subnav => :commits,
+        :page_title=>"Comparing commits"
+      }
     end
 
     # List branches
     get "/branches" do
       branches = @repo.branches
-      erb :branches, :locals => {:branches => branches, :repo => @repo, :subnav => :branches, :branch => @branch}
+      erb :branches, :locals => {
+        :repo => @repo,
+        :branch => @branch,
+        :branches => branches,
+        :subnav => :branches,
+        :page_title => "Branches"
+      }
     end
 
     get "/commits/:branch/*" do
@@ -68,7 +80,7 @@ class GitLog < Sinatra::Base
         :branch => params[:branch],
         :path => params[:splat].last,
         :subnav => :commits,
-        :title => "Commits"
+        :page_title => "Commits"
       }
     end
 
@@ -77,20 +89,39 @@ class GitLog < Sinatra::Base
       branch = "master"
       page = params[:page] || 0
       commits = @repo.commits(branch, 100, (page.to_i * 100))
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => branch, :subnav => :commits, :page => page, :title => "Commit history"}
+      erb :commits, :locals => {
+        :repo => @repo,
+        :commits => commits,
+        :branch => branch,
+        :subnav => :commits,
+        :page => page,
+        :page_title => "Commit history"
+      }
     end
 
     # Show latest commits for a branch
     get "/commits/:branch" do
       page = params[:page] || 0
       commits = @repo.commits(params[:branch], 100, (page.to_i * 100))
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :subnav => :commits, :page => page, :title => "Commit history"}
+      erb :commits, :locals => {
+        :repo => @repo,
+        :commits => commits,
+        :branch => params[:branch],
+        :subnav => :commits,
+        :page => page,
+        :page_title => "Commit history"
+      }
     end
 
     # Show commit
     get "/commit/:sha" do
       commit = @repo.commits(params[:sha])
-      erb :commit, :locals => {:commit => commit.first, :repo => @repo, :branch => 'master', :subnav => :commits }
+      erb :commit, :locals => {
+        :branch => 'master',
+        :commit => commit.first,
+        :repo => @repo,
+        :subnav => :commits
+      }
     end
 
     get "/tree" do
@@ -100,7 +131,14 @@ class GitLog < Sinatra::Base
     # Show the tree for a certain target
     get "/tree/:branch" do
       tree = @repo.tree(params[:branch])
-      erb :tree, :locals => {:tree => tree, :path => "/", :branch => params[:branch], :repo => @repo, :subnav => :files}
+      erb :tree, :locals => {
+        :tree => tree,
+        :path => "/",
+        :branch => params[:branch],
+        :repo => @repo,
+        :subnav => :files,
+        :page_title => "Files"
+      }
     end
 
     # Show tree from HEAD of a branch
@@ -110,14 +148,30 @@ class GitLog < Sinatra::Base
         tree = tree / params[:splat].first
         path = "/" + params[:splat].first + "/"
       end
-      erb :tree, :locals => {:tree => tree, :path => path, :branch => params[:branch], :repo => @repo, :subnav => :files }
+      erb :tree, :locals => {
+        :tree => tree,
+        :path => path,
+        :branch => params[:branch],
+        :repo => @repo,
+        :subnav => :files,
+        :page_title => "Files"
+      }
     end
 
     # Show a blob
     get "/blob/:commit/*" do
       tree = @repo.tree(params[:commit])
       blob = tree / params[:splat].first
-      erb :blob, :locals => {:blob => blob, :path => params[:splat].first, :tree => tree, :commit_id => params[:commit], :branch => params[:commit], :repo => @repo, :subnav => :files}
+      erb :blob, :locals => {
+        :blob => blob,
+        :path => params[:splat].first,
+        :tree => tree,
+        :commit_id => params[:commit],
+        :branch => params[:commit],
+        :repo => @repo,
+        :subnav => :files,
+        :page_title => "Files"
+      }
     end
 
     get "/raw/blob/:commit/*" do
