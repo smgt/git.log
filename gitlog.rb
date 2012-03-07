@@ -48,11 +48,10 @@ class GitLog < Sinatra::Base
       end
     end
 
-
     get "/compare/:target" do
       targets = params[:target].split("...")
-      diffs = @repo.diff(targets.first, targets.last)
-      erb :compare, :locals => {:repo => @repo, :diffs => diffs}
+      commits = @repo.commits_between(targets.first, targets.last)
+      erb :compare, :locals => {:repo => @repo, :commits => commits, :branch => @branch, :subnav => :commits, :title=>"Comparing commits"}
     end
 
     # List branches
@@ -68,7 +67,8 @@ class GitLog < Sinatra::Base
         :commits => commits,
         :branch => params[:branch],
         :path => params[:splat].last,
-        :subnav => :commits
+        :subnav => :commits,
+        :title => "Commits"
       }
     end
 
@@ -77,14 +77,14 @@ class GitLog < Sinatra::Base
       branch = "master"
       page = params[:page] || 0
       commits = @repo.commits(branch, 100, (page.to_i * 100))
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => branch, :subnav => :commits, :page => page}
+      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => branch, :subnav => :commits, :page => page, :title => "Commit history"}
     end
 
     # Show latest commits for a branch
     get "/commits/:branch" do
       page = params[:page] || 0
       commits = @repo.commits(params[:branch], 100, (page.to_i * 100))
-      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :subnav => :commits, :page => page }
+      erb :commits, :locals => {:repo => @repo, :commits => commits, :branch => params[:branch], :subnav => :commits, :page => page, :title => "Commit history"}
     end
 
     # Show commit

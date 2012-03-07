@@ -32,6 +32,10 @@ module Gitlog
       @repository.commits_since *args
     end
 
+    def commits_between(from, to)
+      @repository.commits_between(from, to)
+    end
+
     def commit(id)
       @repository.commit(id)
     end

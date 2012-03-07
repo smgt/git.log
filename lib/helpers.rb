@@ -70,11 +70,16 @@ module Gitlog
 
     def commits_list(repo, commits)
       data = ""
-      data += '<table class="table table-striped table-bordered">'
+      #data += '<table class="table table-striped table-bordered commits">'
       last_date = nil
+      data << '<table class="table table-striped table-bordered commits">'
       commits.each do |commit|
-        if last_date.nil? || last_date.strftime("%Y-%m-%d") != commit.date.strftime("%Y-%m-%d") 
-          data << '</table><table class="table table-striped table-bordered commits">'
+        if last_date && last_date.strftime("%Y-%m-%d") != commit.date.strftime("%Y-%m-%d")
+          data << '</table>'
+          data << '<table class="table table-striped table-bordered commits">'
+        end
+        if last_date.nil? || last_date.strftime("%Y-%m-%d") != commit.date.strftime("%Y-%m-%d")
+          #data << '</table><table class="table table-striped table-bordered commits">'
           data << '<tr class="date_separator">'
           data << '<td colspan="3" class="commit-date">' + commit.date.strftime("%Y-%m-%d") + '</td>'
           data << '</tr>'
