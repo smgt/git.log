@@ -21,9 +21,6 @@
                 <% end %>
               </ul>
             </li>
-
-
-
           </ul>
       </div>
     </div>
@@ -31,7 +28,7 @@
   <div class="container">
       <% if defined?(repo) %>
         <header id="header">
-        <h1><%= repo.title %><%= " <span class=\"light\">"+branch+"</span>" if branch %></h1>
+        <h1><%= repo.title %><%= " <span class=\"light\">&nbsp/&nbsp;"+branch+"</span>" if branch %></h1>
           <div class="subnav">
             <ul class="nav nav-tabs">
               <li <%= 'class="active"' if subnav == :commits %>><a href="/repo/<%= repo.name %>/commits<%= "/"+branch if branch %>">Commits</a></li>
