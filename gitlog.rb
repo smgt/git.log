@@ -50,7 +50,7 @@ class GitLog < Sinatra::Base
 
     get "/compare/:target" do
       targets = params[:target].split("...")
-      commits = @repo.commits_between(targets.first, targets.last)
+      commits = @repo.commits_between(targets.first, targets.last).reverse
       erb :compare, :locals => {
         :repo => @repo,
         :commits => commits,
