@@ -36,6 +36,9 @@ class GitLog < Sinatra::Base
 
   before do
     @config = Gitlog::Config.new
+    if params[:branch]
+      params[:branch] = CGI.unescape params[:branch]
+    end
   end
 
   namespace "/repo/:repo" do
