@@ -1,14 +1,17 @@
-require "charlock_holmes"
-require "sinatra/base"
-require "sinatra/namespace"
-require 'digest/md5'
-require "cgi"
-require "grit"
-require "yaml"
-require "linguist"
-require "pretty_diff"
-require "fileutils"
-require "pygments.rb"
+#require "charlock_holmes"
+#require "sinatra/base"
+#require "sinatra/namespace"
+#require 'digest/md5'
+#require "cgi"
+#require "grit"
+#require "yaml"
+#require "linguist"
+#require "pretty_diff"
+#require "fileutils"
+#require "pygments.rb"
+
+require "bundler/setup"
+Bundler.require(:default)
 
 require "lib/config"
 require "lib/helpers"
