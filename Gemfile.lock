@@ -1,12 +1,12 @@
 GIT
   remote: https://github.com/github/linguist.git
-  revision: 4ad921f176a0d5bd7f04d2f32099e9d1ef979c95
+  revision: 887101eb64de18df02b4a6faae447f06fc1cbb52
   specs:
     linguist (1.0.0)
       charlock_holmes (~> 0.6.6)
       escape_utils (~> 0.2.3)
       mime-types (~> 1.16)
-      pygments.rb (~> 0.2.3)
+      pygments.rb (~> 0.2.7)
 
 GEM
   remote: http://rubygems.org/
@@ -21,9 +21,9 @@ GEM
     grit (2.4.1)
       diff-lcs (~> 1.1)
       mime-types (~> 1.15)
-    mime-types (1.16)
+    mime-types (1.17.2)
     pretty_diff (0.8.1)
-    pygments.rb (0.2.4)
+    pygments.rb (0.2.7)
       rubypython (~> 0.5.3)
     rack (1.4.1)
     rack-protection (1.2.0)
