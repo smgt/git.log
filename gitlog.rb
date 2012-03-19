@@ -62,6 +62,7 @@ class GitLog < Sinatra::Base
         :commits => commits,
         :branch => @branch,
         :subnav => :commits,
+        :targets => targets,
         :page_title=>"Comparing commits"
       }
     end

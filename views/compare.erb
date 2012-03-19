@@ -1,2 +1,5 @@
 <h2>Compare</h2>
+<div class="" style="padding-bottom: 1em;">
+  <%= repo_link_to repo, targets.first, :page => :commits, :commit => targets.first, :class => "label label-inverse" %><span class="large">&nbsp;&#8605;&nbsp;</span><%= repo_link_to repo, targets.last, :page => :commits, :commit => targets.last, :class => "label label-inverse" %>
+</div>
 <%= commits_list(repo.name, commits) %>
