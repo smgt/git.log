@@ -8,7 +8,7 @@
 <div class="author-committer">
   <div class="author">
     <img src="<%= gravatar(commit.author.email, "25x25") %>" class="author"/>
-    <span class="light"><span class="author-name"><%= commit.author %></span> authored <%= commit_time commit.authored_date %></span>
+    <span class="light"><span class="author-name"><a href="mailto:<%= commit.author.email %>?Subject=Concerning commit <%= commit.id %> in <%= repo.name %>"><%= commit.author %></a></span> authored <%= commit_time commit.authored_date %></span>
   </div>
   <div class="committer">
   </div>
