@@ -13,7 +13,7 @@
   <tr>
     <td><%= repo_link_to repo, branch.name, :page => :commits, :commit => branch.name, :class => "large heavy" %></td>
     <td><%= commit_time(commit.committed_date) %></td>
-    <td><a href="/repo/<%= repo.name %>/commit/<%= commit.id %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[ <%= commit.committer.name %> ]</span></td>
+    <td><a href="/repo/<%= repo.name %>/commit/<%= commit.id %>"><%= commit.short_message[0..77] %><%= "..." if commit.short_message.length > 77 %></a> <span class="light">[&nbsp;<%= commit.committer.name %>&nbsp;]</span></td>
     <td width="110px" class="link"><div class="btn-group pull-right">
       <%= repo_link_to repo, commit.id[0..5], :page => :commit, :commit => commit.id, :class => "btn btn-mono btn-info btn-small" %>
       <a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
