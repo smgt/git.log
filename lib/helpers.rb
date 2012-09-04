@@ -116,7 +116,7 @@ module Gitlog
         data << '</td>'
         data << '<td width="110px" class="link"><div class="btn-group pull-right">'
         data << '<a href="/repo/'+repo+'/commit/'+commit.id+'" class="btn btn-mono btn-info">' + commit.id[0..4] + '</a>'
-        data << '<a href="#" class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>'
+        data << '<button class="btn btn-info dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>'
         data << '<ul class="dropdown-menu">'
         data << '<li><a href="/repo/'+repo+'/commit/'+commit.id+'">View commit</a></li>'
         data << '<li><a href="/repo/'+repo+'/tree/'+commit.id+'">Browse code</a></li>'

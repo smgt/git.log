@@ -175,13 +175,3 @@ img.author {
   background-color: transparent;
   border-radius: 0;
 }
-
-/** Twitter bootstrap fixes **/
-
-table .btn-group .caret {
-  margin-bottom: 7px;
-}
-
-table .btn-group .dropdown-menu {
-  font-size: 100%;
-}

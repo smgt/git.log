@@ -24,11 +24,11 @@
 <div class="diff-files">
   <% commit.diffs.each_with_index do |diff, index| %>
     <% if diff.new_file %>
-      <div class="diff-file"><span class="btn btn-success"><i class="icon-plus icon-white"></i></span> <a href="#<%= index%>"><%= diff.b_path %></a></div>
+      <div class="diff-file"><span class="badge badge-success"><i class="icon-plus icon-white"></i></span> <a href="#<%= index%>"><%= diff.b_path %></a></div>
     <% elsif diff.deleted_file %>
-      <div class="diff-file"><span class="btn btn-danger"><i class="icon-minus icon-white"></i></span> <%= diff.b_path %></div>
+      <div class="diff-file"><span class="badge badge-important"><i class="icon-minus icon-white"></i></span> <%= diff.b_path %></div>
     <% else %>
-      <div class="diff-file"><span class="btn btn-info"><i class="icon-repeat icon-white"></i></span> <a href="#<%= index %>"><%= diff.b_path %></a></div>
+      <div class="diff-file"><span class="badge badge-info"><i class="icon-repeat icon-white"></i></span> <a href="#<%= index %>"><%= diff.b_path %></a></div>
     <% end %>
   <% end %>
 </div>
