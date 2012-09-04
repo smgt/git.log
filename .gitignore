@@ -1,3 +1,4 @@
 cache/*
 config.yaml
 repositories
+.rbx/
